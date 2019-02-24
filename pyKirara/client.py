@@ -15,18 +15,8 @@ class KiraraException(Exception):
         return f"http status: {self.http_status} {self.code} - {self.msg}"
 
 class Kirara(object):
-    """
-    A class that connects to the kirara api
+    """A class that connects to the kirara api
 
-    ...
-
-    Methods
-    -------
-    internal_call(method, url, payload, params)
-        Makes calls to the api
-
-    get(url, args=None, payload=None)
-        Does GET http requests    
     """
     max_retries = 10
 
@@ -44,6 +34,27 @@ class Kirara(object):
                 self._session = api
 
     def internal_call(self, method, url, payload, params):
+        """Makes HTTP requests
+        
+        Parameters
+        ----------
+        method : str
+            method of making HTTP requests ('GET', 'POST', etc.)
+
+        url : str
+            The url to make HTTP requests to
+
+        payload : str
+            Any additional parameters to pass
+
+        params : dict
+            Parameters to pass to a dict
+
+        Returns
+        ----------
+        dict
+            The result of the request in dict format
+        """
         args = dict(params=params)
         args["timeout"] = self.request_timeout
         if not url.startswith('http'):
@@ -65,6 +76,24 @@ class Kirara(object):
 
     @lru_cache(maxsize=None)
     def get(self, url, args=None, payload=None, **kwargs):
+        """Make GET requests
+        
+        Parameters
+        ----------
+        url : str
+            The url to the api (excluding the prefix url)
+
+        args : dict
+            Pass additional args
+
+        payload : str
+            Pass any additional parameters to request
+
+        Returns
+        ----------
+        dict
+            The result of the GET request
+        """
         if args:
             kwargs.update(args)
         reconnect = self.max_retries
@@ -99,7 +128,6 @@ class Info(Kirara):
 class Gacha(Kirara):
     """
     Represents gacha information
-    ...
 
     Attributes
     ----------
@@ -124,12 +152,11 @@ class Gacha(Kirara):
 class Idol(Kirara):
     """
     Represents an idol and her data
-    ...
 
     Attributes
     ----------
     char_id : int
-        the idol's characted id
+        the idol's character id
     """
     def __init__(self, char_id: int):
         super().__init__()
