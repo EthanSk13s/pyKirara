@@ -14,7 +14,12 @@
 #
 import os
 import sys
+from recommonmark.parser import CommonMarkParser
 sys.path.insert(0, os.path.abspath('../'))
+
+source_parsers = {
+    '.md': CommonMarkParser,
+}
 
 
 # -- Project information -----------------------------------------------------
@@ -44,7 +49,6 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
-    'm2r'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
