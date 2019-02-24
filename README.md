@@ -1,6 +1,9 @@
+[![Documentation Status](https://readthedocs.org/projects/pykirara/badge/?version=latest)](https://pykirara.readthedocs.io/en/latest/?badge=latest)
 # pyKirara
 
 pyKirara is a Python library for the starlight.kirara REST API
+
+[Basic Documentation](https://pykirara.readthedocs.io/en/latest/)
 
 ## Usage
 
