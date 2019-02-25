@@ -2,8 +2,9 @@
 
 import requests
 import json
-from .enums import enum, blood_types, constellations, hands
 from functools import lru_cache
+from .enums import enum, blood_types, constellations, hands, home_towns
+
 
 class KiraraException(Exception):
     def __init__(self, http_status, code, msg):
@@ -179,6 +180,15 @@ class Idol(Kirara):
         self.favorite = char_data['favorite'] # NOTE: In Japanese due to read_tl not returning english
         self.hand = enum(hands, char_data['hand'])
         self.height = char_data['height']
+        self.home_town = enum(home_towns, char_data['home_town'])
+        self.kana_spaced = char_data['kana_spaced']
+        self.kanji_spaced = char_data['kanji_spaced']
+        self.name = char_data['name']
+        self.name_kana = char_data['name_kana']
+        self.personality = char_data['personality']
+        self.type = char_data['type']
+        self.voice = char_data['voice']
+        self.weight = char_data['weight']
 
         if char_id == 134: # Because Anzu has unknown sizes
             self.bust = "???"
