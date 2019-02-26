@@ -27,4 +27,4 @@ print(f"I'am {uzuki.age} years old!")
 - [Requests](https://github.com/kennethreitz/requests) library
 
 ## License
-[GPL](https://choosealicense.com/licenses/gpl-3.0/)
+[MIT](https://choosealicense.com/licenses/mit/)
