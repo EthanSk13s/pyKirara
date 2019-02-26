@@ -1,1 +1,2 @@
-from .client import Kirara, KiraraException, Gacha, Idol
+from .client import Kirara, KiraraException, Gacha, Info
+from .idol import Idol
