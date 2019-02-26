@@ -1,16 +1,14 @@
-.. pyKirara documentation master file, created by
-   sphinx-quickstart on Sun Feb 24 00:22:05 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
 
 Welcome to pyKirara's documentation!
 ====================================
 
+pyKirara is a Python library for the `starlight.kirara <https://starlight.kirara.ca>`__ API
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-   
-pyKirara is a Python library for the starlight.kirara REST API
+
+   api
 
 Usage
 -----
