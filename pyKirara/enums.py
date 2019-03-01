@@ -95,5 +95,11 @@ home_towns = {
     '62': 'greenland'
     }
 
+attributes = {
+    '1': 'cool',
+    '2': 'cute',
+    '3': 'passion',
+    '4': 'office'
+}
 # ToDo:
 # Finish up dicts
