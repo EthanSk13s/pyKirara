@@ -3,6 +3,7 @@
 import requests
 import json
 from functools import lru_cache
+
 from .enums import enum, blood_types, constellations, hands, home_towns
 
 
@@ -21,7 +22,7 @@ class Kirara(object):
     """
     max_retries = 10
 
-    def __init__(self, requests_session=True, request_timeout=None):
+    def __init__(self, requests_session=True, request_timeout=5):
         self.prefix = 'https://starlight.kirara.ca/api/v1/'
         self.request_timeout = request_timeout
 

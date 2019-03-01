@@ -1,4 +1,5 @@
 from functools import lru_cache
+
 from .client import Kirara
 from .enums import enum, blood_types, constellations, hands, home_towns
 
