@@ -1,7 +1,4 @@
 import pyKirara
-import time
-import timeit
-
 
 uzuki = pyKirara.Idol(101)
 
