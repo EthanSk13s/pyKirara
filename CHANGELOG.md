@@ -1,3 +1,8 @@
+# Version 0.2.dev1 [2019/2/28]
+- Basic Card object added (No Documentations)
+- Attribute enum added
+- Default request timeout for client is now 5 seconds
+
 # Version 0.1.2 [2019/2/25]
 - Moved Idol class separate from client
 - Added more docstrings
