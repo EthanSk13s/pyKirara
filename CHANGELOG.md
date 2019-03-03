@@ -1,3 +1,11 @@
+# Version 0.2.0 [2019/3/3]
+## Card object is now fully done!
+- Fully documented
+- Added functions to calculate stat value in a specific value, and to automatically find skill description
+- Fixed album_id usin enum function when it's not suppose to
+- enum function is now for the type attribute!
+
+
 # Version 0.2.dev1 [2019/2/28]
 - Basic Card object added (No Documentations)
 - Attribute enum added
