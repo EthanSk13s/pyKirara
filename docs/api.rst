@@ -7,6 +7,11 @@ Idol
 -----------
 .. autoclass:: Idol
     :members:
+    
+Card
+-----------
+.. autoclass:: Card
+    :members:
 
 Gacha
 -----------
