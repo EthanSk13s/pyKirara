@@ -22,7 +22,7 @@ class Kirara(object):
     """
     max_retries = 10
 
-    def __init__(self, requests_session=True, request_timeout=5):
+    def __init__(self, requests_session=True, request_timeout=10):
         self.prefix = 'https://starlight.kirara.ca/api/v1/'
         self.request_timeout = request_timeout
 
@@ -184,3 +184,36 @@ class Gacha(Kirara):
         self.type = _gacha['type']
         self.subtype = _gacha['subtype']
         self.rates = _gacha['rates']
+
+def get_id(category, name):
+    """
+    Returns a specific id of an item
+
+    Parameters
+    ----------
+    category : str
+        A specific category to use, i.e 'char_t', or 'card_t'
+
+    name : str
+        This can either be the name of an idol, or a card's title
+
+    Returns
+    -------
+    int
+        The specific ID matching the name given.
+    """
+    cat_list = Kirara().get(f'list/{category}')['result']
+
+    for index, code in enumerate(cat_list):
+        if category == 'char_t':
+            if name == cat_list[index]['conventional']:
+            
+                return int(cat_list[index]['chara_id'])
+        
+        elif category == 'card_t':
+            if name == cat_list[index]['title']:
+
+                return int(cat_list[index]['id'])
+
+
+                
