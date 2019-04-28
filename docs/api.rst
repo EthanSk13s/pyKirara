@@ -22,3 +22,7 @@ Info
 -----------
 .. autoclass:: Info
     :members:
+
+Functions
+-----------
+.. autofunction:: get_id
