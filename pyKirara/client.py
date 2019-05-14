@@ -151,7 +151,7 @@ class Gacha(Kirara):
     id : int
         The gacha's id
 
-    name : int
+    name : str
         The gacha's name in japanese
 
     start_date : UNIX-datetime
@@ -185,6 +185,44 @@ class Gacha(Kirara):
         self.subtype = _gacha['subtype']
         self.rates = _gacha['rates']
 
+class Event(Kirara):
+    """
+    Represents event info
+
+    Attributes
+    -------
+    event : int
+        Event index number in 'happening/now' endpoint
+
+    id : int
+        The event's id
+
+    name : str
+        Event name
+
+    start_date : datetime obj
+        Event start date
+
+    end_date : datetime obj
+        Event end date
+
+    result_end_date : datetime obj
+        The time left for the Event until it ends
+    """
+
+    def __init__(self, event: int):
+        super().__init__()
+        self._event(event)
+
+    def _event(self, event):
+        _event = self.get('happening/now')['events'][event]
+
+        self.id = _event['id']
+        self.name = _event['name']
+        self.start_date = _event['start_date']
+        self.end_date = _event['end_date']
+        self.result_end_date = _event['result_end_date']
+
 def get_id(category, name):
     """
     Returns a specific id of an item
@@ -215,5 +253,20 @@ def get_id(category, name):
 
                 return int(cat_list[index]['id'])
 
+def event_list():
+    """
+    Returns a list of event objects that are currently happening
 
-                
+    Returns
+    -------
+    list
+        A list of event objects that are occuring currently
+    """
+    events_now = []
+    events = Kirara().get(f"happening/now")['events']
+
+    for index, event in enumerate(events):
+
+        events_now.append(Event(index))
+
+        return events_now
