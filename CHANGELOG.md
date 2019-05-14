@@ -1,3 +1,15 @@
+# Version 0.4.0 [2019/5/13]
+## Images and event stuff added
+- Added [save_image()](https://github.com/EthanSk13s/pyKirara/blob/master/pyKirara/card.py#L174) to card object
+
+
+    - This is a way to save images as a file-like object to save locally do something else, or just get the raw links
+
+- Added [Event object](https://github.com/EthanSk13s/pyKirara/blob/master/pyKirara/client.py#L188) and [event_list()](https://github.com/EthanSk13s/pyKirara/blob/master/pyKirara/client.py#L256) function
+
+    - The Event object is made due to a way to recall past events
+    - event_list is to get a list of event objects happening currently
+
 # Version 0.3.0 [2019/4/28]
 ## The "I'm not dead update"
 - Added get_id finally, also with documents wow!
