@@ -23,6 +23,12 @@ Info
 .. autoclass:: Info
     :members:
 
+Event
+-----------
+.. autoclass:: Event
+    :members:
+
 Functions
 -----------
 .. autofunction:: get_id
+.. autofunction:: event_list
