@@ -1,3 +1,4 @@
+import requests
 from functools import lru_cache
 
 from .client import Kirara
@@ -170,3 +171,54 @@ class Card(Kirara):
 
             return round(vocal_formula)
 
+    def save_image(self, category, save=False):
+        """Save images in a file like object or just the link
+
+        Parameters
+        -------
+        category : str
+            Which image to save (card, spread, transparent, puchi)
+
+        save : bool, optional
+            Decided whether to save the spread as an image file or just the link
+            (Default is False, which gets the spread link)
+
+        Returns
+        -------
+        link : str
+            Link to the spread image
+
+        file : bytes
+            The spread image in a file-like object
+        """
+        if save:
+            if category == 'card':
+
+                response = requests.get(self.image)
+                return response
+
+            elif category == 'spread':
+                response = requests.get(f"https://hidamarirhodonite.kirara.ca/spread/{self.card_id}.png")
+                return response
+
+            elif category == 'transparent':
+                response = requests.get(f"https://hidamarirhodonite.kirara.ca/chars2/{self.chara_id}/{self.pose}.png")
+                return response
+
+            elif category == 'puchi':
+                response = requests.get(f"https://hidamarirhodonite.kirara.ca/puchi/{self.chara_id}.png")
+                return response
+            
+        else:
+            if category == 'card':
+                return self.image
+
+            elif category == 'spread':
+                return f"https://hidamarirhodonite.kirara.ca/spread/{self.card_id}.png"
+
+            elif category == 'transparent':
+                return f"https://hidamarirhodonite.kirara.ca/chars2/{self.chara_id}/{self.pose}.png"
+
+            elif category == 'puchi':
+                return f"https://hidamarirhodonite.kirara.ca/puchi/{self.chara_id}.png"       
+        
