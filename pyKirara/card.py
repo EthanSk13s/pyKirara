@@ -3,6 +3,7 @@ from functools import lru_cache
 
 from .client import Kirara
 from .enums import enum, attributes
+from .errors import CategoryNotFound
 
 class Card(Kirara):
     """
@@ -180,45 +181,33 @@ class Card(Kirara):
             Which image to save (card, spread, transparent, puchi)
 
         save : bool, optional
-            Decided whether to save the spread as an image file or just the link
-            (Default is False, which gets the spread link)
+            Decided whether to save the image as a  file-like object or just the link
+            (Default is False, which gets the image link)
 
         Returns
         -------
         link : str
-            Link to the spread image
+            Link to the image
 
         file : bytes
-            The spread image in a file-like object
+            The image in a file-like object
         """
-        if save:
-            if category == 'card':
+        categories = {
+            'card': self.image,
+            'spread': f"https://hidamarirhodonite.kirara.ca/spread/{self.card_id}.png",
+            'transparent': f"https://hidamarirhodonite.kirara.ca/chara2/{self.chara_id}/{self.pose}.png",
+            'puchi': f"https://hidamarirhodonite.kirara.ca/puchi/{self.chara_id}.png"
+        }
 
-                response = requests.get(self.image)
-                return response
+        if category in categories:
+            url = categories.get(category)
+            if save:
+                
+                response = requests.get(url)
 
-            elif category == 'spread':
-                response = requests.get(f"https://hidamarirhodonite.kirara.ca/spread/{self.card_id}.png")
                 return response
-
-            elif category == 'transparent':
-                response = requests.get(f"https://hidamarirhodonite.kirara.ca/chars2/{self.chara_id}/{self.pose}.png")
-                return response
-
-            elif category == 'puchi':
-                response = requests.get(f"https://hidamarirhodonite.kirara.ca/puchi/{self.chara_id}.png")
-                return response
-            
+            else:
+                return url
+                        
         else:
-            if category == 'card':
-                return self.image
-
-            elif category == 'spread':
-                return f"https://hidamarirhodonite.kirara.ca/spread/{self.card_id}.png"
-
-            elif category == 'transparent':
-                return f"https://hidamarirhodonite.kirara.ca/chars2/{self.chara_id}/{self.pose}.png"
-
-            elif category == 'puchi':
-                return f"https://hidamarirhodonite.kirara.ca/puchi/{self.chara_id}.png"       
-        
+            raise CategoryNotFound('category must be either card, spread, transparent or puchi')
