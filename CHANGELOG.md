@@ -1,3 +1,14 @@
+# Version 0.4.1 [2019/5/18]
+## Additions
+- Added basic errors
+- Documentations on Event objects
+## Changes
+- Changed how image category is handled from elif statements to a dictionary
+
+## Bug Fixes
+- Fixed transparent image links giving 404s (typo in link)
+- Fixed typos in docstrings
+
 # Version 0.4.0 [2019/5/13]
 ## Images and event stuff added
 - Added [save_image()](https://github.com/EthanSk13s/pyKirara/blob/master/pyKirara/card.py#L174) to card object
