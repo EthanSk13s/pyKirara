@@ -23,6 +23,12 @@ class Card(Kirara):
     image : str
         The card's image API link
 
+    has_spread : bool
+        True if the card has a spread image, otherwise false
+
+    icon : str
+        The card's icon link    
+
     chara_id : int
         The card's character id
 
@@ -108,6 +114,8 @@ class Card(Kirara):
         self.album_id = card_data['album_id']
         self.type = enum(attributes, card_data['attribute'])
         self.image = card_data['card_image_ref']
+        self.has_spread = card_data['has_spread']
+        self.icon = card_data['icon_image_ref']
         self.chara_id = card_data['chara_id']
         self.evo_id = card_data['evolution_id']
         self.evo_type = card_data['evolution_type']
@@ -178,7 +186,7 @@ class Card(Kirara):
         Parameters
         -------
         category : str
-            Which image to save (card, spread, transparent, puchi)
+            Which image to save (card, icon, spread, transparent, puchi)
 
         save : bool, optional
             Decided whether to save the image as a  file-like object or just the link
@@ -194,16 +202,17 @@ class Card(Kirara):
         """
         categories = {
             'card': self.image,
+            'icon': self.icon,
             'spread': f"https://hidamarirhodonite.kirara.ca/spread/{self.card_id}.png",
             'transparent': f"https://hidamarirhodonite.kirara.ca/chara2/{self.chara_id}/{self.pose}.png",
-            'puchi': f"https://hidamarirhodonite.kirara.ca/puchi/{self.chara_id}.png"
+            'puchi': f"https://hidamarirhodonite.kirara.ca/puchi/{self.chara_id}.png"            
         }
 
         if category in categories:
             url = categories.get(category)
             if save:
                 
-                response = requests.get(url)
+                response = requests.get(url, stream=True)
 
                 return response
             else:
