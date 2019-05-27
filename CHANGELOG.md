@@ -1,3 +1,20 @@
+# Version 0.5.0 [2019/5/27]
+## Additions
+- added has_spread and icon members to card objects
+    - icon member is a link to the card's icon
+    - has_spread is a bool value whether the card has a 
+    spread image or not
+    - icon is now a category for the save_image function
+- also added icon member to idol object
+## Changes
+- event_list function to happening_list functions
+    - happening_list can also now list Gacha objects
+        - An additonal parameter called category can be used
+        to define which object type to use
+- get_id function now returns a list of card objects matching the name given
+## Minor Changes
+- Card.save_image() now gets the image via a stream now
+
 # Version 0.4.1 [2019/5/18]
 ## Additions
 - Added basic errors
