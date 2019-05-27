@@ -75,6 +75,9 @@ class Idol(Kirara):
 
     weight : int
         The idol's weight
+    
+    icon : str
+        The link to the idol's icon
     """
     def __init__(self, char_id: int):
         super().__init__()
@@ -105,6 +108,7 @@ class Idol(Kirara):
         self.type = char_data['type']
         self.voice = char_data['voice']
         self.weight = char_data['weight']
+        self.icon = char_data['icon_image_ref']
 
         if char_id == 134: # Because Anzu has unknown sizes
             self.bust = "???"
