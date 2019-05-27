@@ -5,6 +5,7 @@ import json
 from functools import lru_cache
 
 from .enums import enum, blood_types, constellations, hands, home_towns
+from. errors import CategoryNotFound
 
 
 class KiraraException(Exception):
@@ -233,12 +234,15 @@ def get_id(category, name):
         A specific category to use, i.e 'char_t', or 'card_t'
 
     name : str
-        This can either be the name of an idol, or a card's title
+        This is the name of an idol
 
     Returns
     -------
     int
         The specific ID matching the name given.
+
+    list
+        If the category is card, returns a list of cards matching the name
     """
     cat_list = Kirara().get(f'list/{category}')['result']
 
@@ -249,24 +253,54 @@ def get_id(category, name):
                 return int(cat_list[index]['chara_id'])
         
         elif category == 'card_t':
-            if name == cat_list[index]['title']:
 
-                return int(cat_list[index]['id'])
+            card_list = []
+            for index, code in enumerate(cat_list):
+                if name == cat_list[index]['conventional']:
+                    card_list.append(int(cat_list[index]['id']))
 
-def event_list():
+            return card_list
+
+        else:
+            raise CategoryNotFound("Invalid category, use char_t, or card_t")
+
+
+def happening_list(category):
     """
     Returns a list of event objects that are currently happening
+
+    Parameters
+    -------
+    category : str
+        A category to use from (use either 'events' or 'gachas')
 
     Returns
     -------
     list
-        A list of event objects that are occuring currently
+        A list of event or gacha objects that are occuring currently
+
+    None
+        If there is nothing ongoing
     """
-    events_now = []
-    events = Kirara().get(f"happening/now")['events']
+    categories = {
+        'events': Kirara().get(f"happening/now")['events'],
+        'gachas': Kirara().get(f"happening/now")['gachas']
+    }
+    
+    happening_now = []
 
-    for index, event in enumerate(events):
+    if category in categories:
+        got = categories.get(category)
 
-        events_now.append(Event(index))
+        for index, event in enumerate(got):
+            if category == 'events':
 
-        return events_now
+                happening_now.append(Event(index))
+            else:
+                for gacha, event in enumerate(got): # I don't know why you have to iterate again, maybe Im dumb
+
+                    happening_now.append(Gacha(gacha))
+
+            return happening_now
+    else:
+        raise CategoryNotFound("Invalid Category, use 'events' or 'gachas'")
