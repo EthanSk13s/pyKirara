@@ -31,4 +31,4 @@ Event
 Functions
 -----------
 .. autofunction:: get_id
-.. autofunction:: event_list
+.. autofunction:: happening_list
