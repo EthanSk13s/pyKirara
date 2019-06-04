@@ -101,5 +101,16 @@ attributes = {
     '3': 'passion',
     '4': 'office'
 }
+
+rarities = {
+    'n': '1',
+    'n+': '2',
+    'r': '3',
+    'r+': '4',
+    'sr': '5',
+    'sr+': '6',
+    'ssr': '7',
+    'ssr+': '8'
+}
 # ToDo:
 # Finish up dicts
