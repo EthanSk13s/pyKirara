@@ -24,9 +24,9 @@ copyright = '2019, EthanSk13s'
 author = 'EthanSk13s'
 
 # The short X.Y version
-version = '0.5'
+version = '1.0a'
 # The full version, including alpha/beta/rc tags
-release = '0.5.0'
+release = '1.0.0a'
 
 
 # -- General configuration ---------------------------------------------------
