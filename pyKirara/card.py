@@ -59,8 +59,11 @@ class Card(Kirara):
     series_id : int
         The evolution chain id of the card
 
-    skill_id : int
-        The card's skill id
+    skill : dict
+        The card's skill info in a dict
+
+    lead_skill : dict
+        The card's lead skill info in a dict
 
     rarity : dict
         Represents the card's rarity data in dict form
@@ -112,7 +115,7 @@ class Card(Kirara):
         card_data = self.get('card_t/{0}'.format(card_id))['result'][0]
 
         self.album_id = card_data['album_id']
-        self.type = enum(attributes, card_data['attribute'])
+        self.type = card_data['attribute']
         self.image = card_data['card_image_ref']
         self.has_spread = card_data['has_spread']
         self.icon = card_data['icon_image_ref']
@@ -126,7 +129,8 @@ class Card(Kirara):
         self.place = card_data['place']
         self.pose = card_data['pose']
         self.series_id = card_data['series_id']
-        self.skill_id = card_data['skill_id']
+        self.lead_skill = card_data['lead_skill']
+        self.skill = card_data['skill']
         self.rarity = card_data['rarity']
 
         self.min_vocal = card_data['vocal_min']
@@ -144,18 +148,6 @@ class Card(Kirara):
         self.min_hp = card_data['hp_min']
         self.max_hp = card_data['hp_max']
         self.bonus_hp = card_data['bonus_hp']
-
-    def get_skill(self):
-        """Gets skill information via the card's skill_id
-
-        Returns
-        -------
-        str
-            Description of the skill.
-        """
-        skill = self.get('skill_t/{0}'.format(self.skill_id))['result'][0]['explain_en']
-
-        return skill
 
     def min_max_stats(self, stat: str, level: int):
         """Calculates the value of a stat in a specific level
