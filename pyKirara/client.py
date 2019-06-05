@@ -4,8 +4,10 @@ import requests
 import json
 from functools import lru_cache
 
-from .enums import enum, blood_types, constellations, hands, home_towns
-from. errors import CategoryNotFound
+import idol
+from .enums import enum, blood_types, constellations, hands, home_towns, rarities
+from .errors import CategoryNotFound
+
 
 
 class KiraraException(Exception):
@@ -106,6 +108,26 @@ class Kirara(object):
             except Exception as e:
                 raise
                 print('exception', str(e))
+
+    def get_idol(self, idol_id: int):
+        data = self.get(f"char_t/{idol}")
+
+        return idol.Idol(data['result'][0])
+
+    def get_image(self, card: 'Card', category='card'):
+        categories = {
+            'card': card.image,
+            'icon': card.icon,
+            'spread': card.spread,
+            'sprite': card.sprite,
+        }
+
+        if category in categories:
+            image = categories.get(category)
+
+            response = self._session.get(image)
+
+            return response
 
     # DEFUNCT FOR NOW
     # @lru_cache(maxsize=None)
@@ -224,7 +246,7 @@ class Event(Kirara):
         self.end_date = _event['end_date']
         self.result_end_date = _event['result_end_date']
 
-def get_id(category, name):
+def get_id(category, name, card_rarity, position=None):
     """
     Returns a specific id of an item
 
@@ -245,6 +267,8 @@ def get_id(category, name):
         If the category is card, returns a list of cards matching the name
     """
     cat_list = Kirara().get(f'list/{category}')['result']
+    rarity = enum(rarities, card_rarity)
+    card_list = []
 
     for index, code in enumerate(cat_list):
         if category == 'char_t':
@@ -253,17 +277,16 @@ def get_id(category, name):
                 return int(cat_list[index]['chara_id'])
         
         elif category == 'card_t':
-
-            card_list = []
-            for index, code in enumerate(cat_list):
-                if name == cat_list[index]['conventional']:
+            if name == cat_list[index]['conventional']:
+                if int(rarity) == int(cat_list[index]['rarity_dep']['rarity']):
                     card_list.append(int(cat_list[index]['id']))
-
-            return card_list
-
         else:
+            
             raise CategoryNotFound("Invalid category, use char_t, or card_t")
 
+    return card_list
+
+        
 
 def happening_list(category):
     """
