@@ -1,10 +1,9 @@
 from functools import lru_cache
 
-from .client import Kirara
 from .enums import enum, blood_types, constellations, hands, home_towns
 
         
-class Idol(Kirara):
+class Idol:
     """
     Represents an idol and her data
 
@@ -79,13 +78,11 @@ class Idol(Kirara):
     icon : str
         The link to the idol's icon
     """
-    def __init__(self, char_id: int):
-        super().__init__()
-        self._data(char_id)
+    def __init__(self, char_data: dict):
+        self._data(char_data)
 
     @lru_cache(maxsize=None)
-    def _data(self, char_id):
-        char_data = self.get(f'char_t/{char_id}')['result'][0]
+    def _data(self, char_data):
 
         self.age = char_data['age']
         self.bday = char_data['birth_day']
@@ -109,8 +106,3 @@ class Idol(Kirara):
         self.voice = char_data['voice']
         self.weight = char_data['weight']
         self.icon = char_data['icon_image_ref']
-
-        if char_id == 134: # Because Anzu has unknown sizes
-            self.bust = "???"
-            self.waist = "???"
-            self.hip = "???"
