@@ -105,20 +105,24 @@ class Card(Kirara):
         The card's bonus health value
 
     """
-    def __init__(self, card_id: int):
+    def __init__(self, card_data: dict):
         super().__init__()
-        self._data(card_id)
-        self.card_id = card_id
+        self._data(card_data)
 
     @lru_cache(maxsize=None)
-    def _data(self, card_id):
-        card_data = self.get('card_t/{0}'.format(card_id))['result'][0]
+    def _data(self, card_data):
 
+        self.card_id = card_data['id']
         self.album_id = card_data['album_id']
         self.type = card_data['attribute']
+
         self.image = card_data['card_image_ref']
         self.has_spread = card_data['has_spread']
         self.icon = card_data['icon_image_ref']
+        self.sprite = card_data['sprite_image_ref']
+        self.spread = card_data['spread_image_ref']
+        self.sign = card_data['sign_image_ref']
+
         self.chara_id = card_data['chara_id']
         self.evo_id = card_data['evolution_id']
         self.evo_type = card_data['evolution_type']
@@ -171,44 +175,3 @@ class Card(Kirara):
             vocal_formula = self.min_vocal + (self.max_vocal - self.min_vocal) * (level/self.rarity['base_max_level'])
 
             return round(vocal_formula)
-
-    def save_image(self, category, save=False):
-        """Save images in a file like object or just the link
-
-        Parameters
-        -------
-        category : str
-            Which image to save (card, icon, spread, transparent, puchi)
-
-        save : bool, optional
-            Decided whether to save the image as a  file-like object or just the link
-            (Default is False, which gets the image link)
-
-        Returns
-        -------
-        link : str
-            Link to the image
-
-        file : bytes
-            The image in a file-like object
-        """
-        categories = {
-            'card': self.image,
-            'icon': self.icon,
-            'spread': f"https://hidamarirhodonite.kirara.ca/spread/{self.card_id}.png",
-            'transparent': f"https://hidamarirhodonite.kirara.ca/chara2/{self.chara_id}/{self.pose}.png",
-            'puchi': f"https://hidamarirhodonite.kirara.ca/puchi/{self.chara_id}.png"            
-        }
-
-        if category in categories:
-            url = categories.get(category)
-            if save:
-                
-                response = requests.get(url, stream=True)
-
-                return response
-            else:
-                return url
-                        
-        else:
-            raise CategoryNotFound('category must be either card, spread, transparent or puchi')
