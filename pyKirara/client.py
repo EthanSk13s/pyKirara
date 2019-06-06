@@ -5,6 +5,7 @@ import json
 from functools import lru_cache
 
 import idol
+import card
 from .enums import enum, blood_types, constellations, hands, home_towns, rarities
 from .errors import CategoryNotFound
 
@@ -110,9 +111,14 @@ class Kirara(object):
                 print('exception', str(e))
 
     def get_idol(self, idol_id: int):
-        data = self.get(f"char_t/{idol}")
+        data = self.get(f"char_t/{idol_id}")
 
         return idol.Idol(data['result'][0])
+        
+    def get_card(self, card_id: int):
+        data = self.get(f"card_t{card_id}")
+
+        return card.Card(data['result'][0])
 
     def get_image(self, card: 'Card', category='card'):
         categories = {
