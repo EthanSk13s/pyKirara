@@ -6,6 +6,7 @@ from functools import lru_cache
 
 import idol
 import card
+import infos
 from .enums import enum, blood_types, constellations, hands, home_towns, rarities
 from .errors import CategoryNotFound
 
@@ -120,6 +121,11 @@ class Kirara(object):
 
         return card.Card(data['result'][0])
 
+    def get_version(self):
+        data = self.get('info')
+
+        return infos.Info(data)
+
     def get_image(self, card: 'Card', category='card'):
         categories = {
             'card': card.image,
@@ -134,6 +140,27 @@ class Kirara(object):
             response = self._session.get(image)
 
             return response
+    def get_now(self, category):
+        categories = {
+        'events': self.get(f"happening/now")['events'],
+        'gachas': self.get(f"happening/now")['gachas']
+        }
+        happening_list = []
+
+        if category in categories:
+            stuff = categories.get(category)
+
+            for index, event in enumerate(stuff):
+                if category == 'event':
+                    happening_list.append(infos.Event(event))
+
+                else:
+                    for gacha, event in enumerate(stuff): # I don't know why you have to iterate again, maybe Im dumb
+
+                        happening_list.append(infos.Gacha(event))
+
+            return happening_list
+                    
     def get_id(self, category, name, card_rarity, position=None):
         cat_list = self.get(f'list/{category}')['result']
         rarity = enum(rarities, card_rarity)
@@ -161,116 +188,6 @@ class Kirara(object):
     #    payload = f"[\{load"\]".encode('utf-8')
     #    result = requests.request("POST", self.prefix + url, data=payload)
     #    return result.text
-
-class Info(Kirara):
-    """
-    Represents the API's info
-
-    Attributes
-    ----------
-    truth : str
-        The game's (Deresute) truth version
-
-    api_major : int
-        The API's version major
-
-    api_revision : int
-        The API's revision number        
-
-    """
-
-    def __init__(self):
-        super().__init__()
-        self._data()
-
-    def _data(self):
-        self.truth = self.get('info')['truth_version']
-        self._api_major = self.get('info')['api_major']
-        self._api_revision = self.get('info')['api_revision']
-        
-class Gacha(Kirara):
-    """
-    Represents gacha information
-
-    Attributes
-    ----------
-    gacha : int
-        A value that represents the gacha's position
-
-    id : int
-        The gacha's id
-
-    name : str
-        The gacha's name in japanese
-
-    start_date : UNIX-datetime
-        The gacha's start date
-
-    end_date : UNIX-datetime    
-        The gacha's end date
-
-    type : int
-        The gacha type
-
-    subtype : int
-        The gacha sub-type
-
-    rates : dict
-        The weighted rates for the gacha
-
-    """
-    def __init__(self, gacha: int):
-        super().__init__()
-        self._gacha(gacha)
-
-    def _gacha(self, gacha):
-        _gacha = self.get('happening/now')['gachas'][gacha]
-
-        self.id = _gacha['id']
-        self.name = _gacha['name']
-        self.start_date = _gacha['start_date']
-        self.end_date = _gacha['end_date']
-        self.type = _gacha['type']
-        self.subtype = _gacha['subtype']
-        self.rates = _gacha['rates']
-
-class Event(Kirara):
-    """
-    Represents event info
-
-    Attributes
-    -------
-    event : int
-        Event index number in 'happening/now' endpoint
-
-    id : int
-        The event's id
-
-    name : str
-        Event name
-
-    start_date : datetime obj
-        Event start date
-
-    end_date : datetime obj
-        Event end date
-
-    result_end_date : datetime obj
-        The time left for the Event until it ends
-    """
-
-    def __init__(self, event: int):
-        super().__init__()
-        self._event(event)
-
-    def _event(self, event):
-        _event = self.get('happening/now')['events'][event]
-
-        self.id = _event['id']
-        self.name = _event['name']
-        self.start_date = _event['start_date']
-        self.end_date = _event['end_date']
-        self.result_end_date = _event['result_end_date']
 
 def get_id(category, name, card_rarity, position=None):
     """
@@ -312,44 +229,3 @@ def get_id(category, name, card_rarity, position=None):
 
     return card_list
 
-        
-
-def happening_list(category):
-    """
-    Returns a list of event objects that are currently happening
-
-    Parameters
-    -------
-    category : str
-        A category to use from (use either 'events' or 'gachas')
-
-    Returns
-    -------
-    list
-        A list of event or gacha objects that are occuring currently
-
-    None
-        If there is nothing ongoing
-    """
-    categories = {
-        'events': Kirara().get(f"happening/now")['events'],
-        'gachas': Kirara().get(f"happening/now")['gachas']
-    }
-    
-    happening_now = []
-
-    if category in categories:
-        got = categories.get(category)
-
-        for index, event in enumerate(got):
-            if category == 'events':
-
-                happening_now.append(Event(index))
-            else:
-                for gacha, event in enumerate(got): # I don't know why you have to iterate again, maybe Im dumb
-
-                    happening_now.append(Gacha(gacha))
-
-            return happening_now
-    else:
-        raise CategoryNotFound("Invalid Category, use 'events' or 'gachas'")
