@@ -134,7 +134,27 @@ class Kirara(object):
             response = self._session.get(image)
 
             return response
+    def get_id(self, category, name, card_rarity, position=None):
+        cat_list = self.get(f'list/{category}')['result']
+        rarity = enum(rarities, card_rarity)
+        card_list= []
 
+        for index, code in enumerate(cat_list):
+            if category == 'char_t':
+                if name in cat_list[index]['conventional'].lower():
+
+                    return int(cat_list[index]['chara_id'])
+
+            elif category == 'card_t':
+                if name in cat_list[index]['conventional'].lower():
+                    if int(rarity) == cat_list[index]['rarity_dep']['rarity']:
+                        card_list.append(int(cat_list[index]['id']))
+
+        if position:
+            return card_list[position-1]
+        else:
+            return card_list
+        
     # DEFUNCT FOR NOW
     # @lru_cache(maxsize=None)
     # def post(self, url ,load=None):
