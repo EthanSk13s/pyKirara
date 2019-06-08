@@ -10,8 +10,6 @@ import infos
 from .enums import enum, blood_types, constellations, hands, home_towns, rarities
 from .errors import CategoryNotFound
 
-
-
 class KiraraException(Exception):
     def __init__(self, http_status, code, msg):
         self.http_status = http_status
@@ -112,21 +110,66 @@ class Kirara(object):
                 print('exception', str(e))
 
     def get_idol(self, idol_id: int):
+        """Retrieve an idol's info
+
+        Parameters
+        ----------
+        idol_id : int
+            An Idol's ID to use from
+
+        Returns
+        ----------
+        Idol
+            An Idol object, which contains the idol's info
+        """
         data = self.get(f"char_t/{idol_id}")
 
         return idol.Idol(data['result'][0])
         
     def get_card(self, card_id: int):
+        """Retrieve a card's data
+        
+        Parameters
+        ----------
+        card_id : int
+            A Card's ID to use from
+            
+        Returns
+        ----------
+        Card
+            A Card object, which contains the card's info
+        """
         data = self.get(f"card_t{card_id}")
 
         return card.Card(data['result'][0])
 
     def get_version(self):
+        """Retrieve the client's version
+        
+        Returns
+        ----------
+        Info
+            An Info object, which contains version info
+        """
         data = self.get('info')
 
         return infos.Info(data)
 
     def get_image(self, card: 'Card', category='card'):
+        """Retrieve a Card's image data
+        
+        Parameters
+        ----------
+        card : Card
+            A card object to use
+        catergory : str
+            What type of image to use (Default value is 'card')
+            
+        Returns
+        ----------
+        bytes
+            The image bytes
+        """
         categories = {
             'card': card.image,
             'icon': card.icon,
@@ -140,7 +183,20 @@ class Kirara(object):
             response = self._session.get(image)
 
             return response
+
     def get_now(self, category):
+        """Retrieve a list of occasions happenning in the game
+        
+        Parameters
+        ----------
+        category : str
+            What type of event to iterate from
+            
+        Returns
+        --------
+        list
+            A list of gachas or events
+        """
         categories = {
         'events': self.get(f"happening/now")['events'],
         'gachas': self.get(f"happening/now")['gachas']
@@ -161,7 +217,26 @@ class Kirara(object):
 
             return happening_list
                     
-    def get_id(self, category, name, card_rarity, position=None):
+    def get_id(self, category, name, card_rarity=None, position=None):
+        """Find a specific id based on parameters given
+        
+        Parameters
+        ----------
+        category : str
+            Which category to search from ('card_t, or 'char_t')
+        name : str
+            An idol's name, full or just one part of a name
+        card_rarity : str
+            A rarity of card to look from (ranges from n to ssr, or n+ to ssr+)
+        position : int
+            Which card to get, based on release order
+            
+        Returns
+        ----------
+        list
+            A list of cards matching the parameters
+        int
+            An ID of a specfic idol, or card"""
         cat_list = self.get(f'list/{category}')['result']
         rarity = enum(rarities, card_rarity)
         card_list= []
@@ -174,8 +249,10 @@ class Kirara(object):
 
             elif category == 'card_t':
                 if name in cat_list[index]['conventional'].lower():
-                    if int(rarity) == cat_list[index]['rarity_dep']['rarity']:
-                        card_list.append(int(cat_list[index]['id']))
+                    card_list.append(int(cat_list[index]['id']))
+                    if card_rarity:
+                        if int(rarity) == cat_list[index]['rarity_dep']['rarity']:
+                            card_list.append(int(cat_list[index]['id']))
 
         if position:
             return card_list[position-1]
@@ -188,44 +265,3 @@ class Kirara(object):
     #    payload = f"[\{load"\]".encode('utf-8')
     #    result = requests.request("POST", self.prefix + url, data=payload)
     #    return result.text
-
-def get_id(category, name, card_rarity, position=None):
-    """
-    Returns a specific id of an item
-
-    Parameters
-    ----------
-    category : str
-        A specific category to use, i.e 'char_t', or 'card_t'
-
-    name : str
-        This is the name of an idol
-
-    Returns
-    -------
-    int
-        The specific ID matching the name given.
-
-    list
-        If the category is card, returns a list of cards matching the name
-    """
-    cat_list = Kirara().get(f'list/{category}')['result']
-    rarity = enum(rarities, card_rarity)
-    card_list = []
-
-    for index, code in enumerate(cat_list):
-        if category == 'char_t':
-            if name == cat_list[index]['conventional']:
-            
-                return int(cat_list[index]['chara_id'])
-        
-        elif category == 'card_t':
-            if name == cat_list[index]['conventional']:
-                if int(rarity) == int(cat_list[index]['rarity_dep']['rarity']):
-                    card_list.append(int(cat_list[index]['id']))
-        else:
-            
-            raise CategoryNotFound("Invalid category, use char_t, or card_t")
-
-    return card_list
-
