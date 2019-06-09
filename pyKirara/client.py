@@ -4,9 +4,9 @@ import requests
 import json
 from functools import lru_cache
 
-import idol
-import card
-import infos
+from .idol import Idol
+from .card import Card
+from .infos import Event, Gacha, Info
 from .enums import enum, blood_types, constellations, hands, home_towns, rarities
 from .errors import CategoryNotFound
 
@@ -124,7 +124,7 @@ class Kirara(object):
         """
         data = self.get(f"char_t/{idol_id}")
 
-        return idol.Idol(data['result'][0])
+        return Idol(data['result'][0])
         
     def get_card(self, card_id: int):
         """Retrieve a card's data
@@ -141,7 +141,7 @@ class Kirara(object):
         """
         data = self.get(f"card_t{card_id}")
 
-        return card.Card(data['result'][0])
+        return Card(data['result'][0])
 
     def get_version(self):
         """Retrieve the client's version
@@ -153,7 +153,7 @@ class Kirara(object):
         """
         data = self.get('info')
 
-        return infos.Info(data)
+        return Info(data)
 
     def get_image(self, card: 'Card', category='card'):
         """Retrieve a Card's image data
@@ -208,12 +208,12 @@ class Kirara(object):
 
             for index, event in enumerate(stuff):
                 if category == 'event':
-                    happening_list.append(infos.Event(event))
+                    happening_list.append(Event(event))
 
                 else:
                     for gacha, event in enumerate(stuff): # I don't know why you have to iterate again, maybe Im dumb
 
-                        happening_list.append(infos.Gacha(event))
+                        happening_list.append(Gacha(event))
 
             return happening_list
                     

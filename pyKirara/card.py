@@ -1,11 +1,10 @@
 import requests
 from functools import lru_cache
 
-from .client import Kirara
 from .enums import enum, attributes
 from .errors import CategoryNotFound
 
-class Card(Kirara):
+class Card:
     """
     Represents a Card and its data
 
@@ -106,7 +105,6 @@ class Card(Kirara):
 
     """
     def __init__(self, card_data: dict):
-        super().__init__()
         self._data(card_data)
 
     @lru_cache(maxsize=None)
