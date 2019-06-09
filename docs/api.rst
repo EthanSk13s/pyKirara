@@ -1,34 +1,24 @@
-.. currentmodule:: pyKirara
-
 API Reference
 ==================
 
-Idol
+Main Client
 -----------
-.. autoclass:: Idol
-    :members:
+.. autoclass:: pyKirara.Kirara
+    :members: get_idol, get_card, get_id, get_image, get_version, get_now
     
-Card
------------
-.. autoclass:: Card
+Return Dataclasses
+------------------
+.. autoclass:: pyKirara.idol.Idol
     :members:
 
-Gacha
------------
-.. autoclass:: Gacha
+.. autoclass:: pyKirara.card.Card
     :members:
 
-Info
------------
-.. autoclass:: Info
+.. autoclass:: pyKirara.infos.Gacha
     :members:
 
-Event
------------
-.. autoclass:: Event
+.. autoclass:: pyKirara.infos.Info
     :members:
 
-Functions
------------
-.. autofunction:: get_id
-.. autofunction:: happening_list
+.. autoclass:: pyKirara.infos.Event
+    :members:
