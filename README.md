@@ -10,7 +10,8 @@ pyKirara is a Python library for the starlight.kirara REST API
 ```python
 import pyKirara
 
-uzuki = pyKirara.Idol(101)
+client = pyKirara.Kirara()
+uzuki = client.get_idol(101)
 
 print(f"HI! MY NAME IS {uzuki.conventional}")
 print("I'll do my best!")
