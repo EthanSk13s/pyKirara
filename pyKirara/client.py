@@ -8,7 +8,7 @@ from .idol import Idol
 from .card import Card
 from .infos import Event, Gacha, Info
 from .enums import enum, blood_types, constellations, hands, home_towns, rarities
-from .errors import CategoryNotFound
+from .errors import CategoryNotFound, NotFound, NotValid
 
 class KiraraException(Exception):
     def __init__(self, http_status, code, msg):
@@ -123,9 +123,12 @@ class Kirara(object):
             An Idol object, which contains the idol's info
         """
         data = self.get(f"char_t/{idol_id}")
+        if data['result'][0] is not None:
 
-        return Idol(data['result'][0])
-        
+            return Idol(data['result'][0])
+        else:
+            raise NotFound("Idol ID can not be found in the Database. Is the ID correct?")
+
     def get_card(self, card_id: int):
         """Retrieve a card's data
         
@@ -140,9 +143,11 @@ class Kirara(object):
             A Card object, which contains the card's info
         """
         data = self.get(f"card_t{card_id}")
+        if data['result'][0] is not None:
 
-        return Card(data['result'][0])
-
+            return Card(data['result'][0])
+        else:
+            raise NotFound("Card ID can not be found in the Database. Is the ID correct?")
     def get_version(self):
         """Retrieve the client's version
         
@@ -170,19 +175,24 @@ class Kirara(object):
         bytes
             The image bytes
         """
-        categories = {
-            'card': card.image,
-            'icon': card.icon,
-            'spread': card.spread,
-            'sprite': card.sprite,
-        }
+        if type(card) is Card:
+            categories = {
+                'card': card.image,
+                'icon': card.icon,
+                'spread': card.spread,
+                'sprite': card.sprite
+            }
+            if category in categories:
+                image = categories.get(category)
 
-        if category in categories:
-            image = categories.get(category)
+                response = self._session.get(image)
 
-            response = self._session.get(image)
-
-            return response
+                return response
+            else:
+                raise CategoryNotFound("Defined Category not valid, use 'card', 'icon', 'spread', or 'sprite'")
+        else:
+            raise NotValid("The passed object for card is not a Card object")
+        
 
     def get_now(self, category):
         """Retrieve a list of occasions happenning in the game
@@ -237,6 +247,7 @@ class Kirara(object):
             A list of cards matching the parameters
         int
             An ID of a specfic idol, or card"""
+
         cat_list = self.get(f'list/{category}')['result']
         rarity = enum(rarities, card_rarity)
         card_list= []
@@ -253,7 +264,8 @@ class Kirara(object):
                     if card_rarity:
                         if int(rarity) == cat_list[index]['rarity_dep']['rarity']:
                             card_list.append(int(cat_list[index]['id']))
-
+            else:
+                raise CategoryNotFound("Category not found: Use 'card_t',or 'char_t'")
         if position:
             return card_list[position-1]
         else:
