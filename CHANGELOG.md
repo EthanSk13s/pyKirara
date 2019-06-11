@@ -1,3 +1,33 @@
+# Version 1.0.0 [2019/6/11]
+## NOW ON PyPI!!!!
+- To install:
+    ```
+     pip install pyKirara
+    ```
+## FULL REWRITE OF DUMB CODE!!!!
+- All classes inheriting from Kirara are now dataclasses
+    - I made the dumb mistake of spawning new clients everytime 
+    any class is initialized. Everything should've been in one session
+    in the first place
+    - usage should still be mostly the same: initialize client get data use data
+
+## General Changes & Additions
+- get_id now has the ability to get one specific card
+    - added ability to pass only the idol's first name
+        - a bit buggy since substrings are weird
+    - additional params added, rarity, position
+        - rarity can be from n to ssr, or n+ to ssr+
+            - check enums for dict mapping
+        - position is the order when the card was released
+            - EX: uzuki ssr 4, would get uzuki's 4th ssr
+- Error catching is added to functions
+
+## Card Class Changes & Additions
+- changed card class members
+    - skill_id is now just skill which is a dict of the skill's info
+    - added lead_skill, which is also a dict of the skill's info
+    - attribute is no longer a dict mapping, it now returns a string
+    
 # Version 0.5.0 [2019/5/27]
 ## Additions
 - added has_spread and icon members to card objects
