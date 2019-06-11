@@ -7,7 +7,7 @@ with open('requirements.txt') as f:
 with open("README.md") as f:
     readme = f.read()
 
-setuptools.setup(name='test-pyKirara',
+setuptools.setup(name='pyKirara',
     author='EthanSk13s',
     url='https://github.com/EthanSk13s/pyKirara',
     project_urls={
