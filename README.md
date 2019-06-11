@@ -1,4 +1,5 @@
 [![Documentation Status](https://readthedocs.org/projects/pykirara/badge/?version=latest)](https://pykirara.readthedocs.io/en/latest/?badge=latest)
+[![PyPI version](https://badge.fury.io/py/pyKirara.svg)](https://badge.fury.io/py/pyKirara)
 # pyKirara
 
 pyKirara is a Python library for the starlight.kirara REST API
