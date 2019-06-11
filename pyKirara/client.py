@@ -142,7 +142,7 @@ class Kirara(object):
         Card
             A Card object, which contains the card's info
         """
-        data = self.get(f"card_t{card_id}")
+        data = self.get(f"card_t/{card_id}")
         if data['result'][0] is not None:
 
             return Card(data['result'][0])

@@ -79,11 +79,6 @@ class Idol:
         The link to the idol's icon
     """
     def __init__(self, char_data: dict):
-        self._data(char_data)
-
-    @lru_cache(maxsize=None)
-    def _data(self, char_data):
-
         self.age = char_data['age']
         self.bday = char_data['birth_day']
         self.bmonth = char_data['birth_month']

@@ -105,11 +105,6 @@ class Card:
 
     """
     def __init__(self, card_data: dict):
-        self._data(card_data)
-
-    @lru_cache(maxsize=None)
-    def _data(self, card_data):
-
         self.card_id = card_data['id']
         self.album_id = card_data['album_id']
         self.type = card_data['attribute']

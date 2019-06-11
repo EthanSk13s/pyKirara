@@ -16,10 +16,6 @@ class Info:
     """
 
     def __init__(self, info_data: dict):
-        super().__init__()
-        self._data(info_data)
-
-    def _data(self, info_data):
         self.truth = info_data['truth_version']
         self._api_major = info_data['api_major']
         self._api_revision = info_data['api_revision']
@@ -56,10 +52,6 @@ class Gacha:
 
     """
     def __init__(self, gacha_data: dict):
-        super().__init__()
-        self._gacha(gacha_data)
-
-    def _gacha(self, gacha_data):
         self.id = gacha_data['id']
         self.name = gacha_data['name']
         self.start_date = gacha_data['start_date']
@@ -94,11 +86,6 @@ class Event:
     """
 
     def __init__(self, gacha_data):
-        super().__init__()
-        self._gacha(gacha_data)
-
-    def _gacha(self, gacha_data):
-
         self.id = gacha_data['id']
         self.name = gacha_data['name']
         self.start_date = gacha_data['start_date']
