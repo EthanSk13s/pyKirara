@@ -170,6 +170,7 @@ class Kirara(object):
                 return card
         else:
             raise NotFound("Card ID can not be found in the Database. Is the ID correct?")
+            
     def get_version(self):
         """Retrieve the client's version
         
@@ -293,9 +294,3 @@ class Kirara(object):
         else:
             return card_list
         
-    # DEFUNCT FOR NOW
-    # @lru_cache(maxsize=None)
-    # def post(self, url ,load=None):
-    #    payload = f"[\{load"\]".encode('utf-8')
-    #    result = requests.request("POST", self.prefix + url, data=payload)
-    #    return result.text
