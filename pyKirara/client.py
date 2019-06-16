@@ -112,7 +112,7 @@ class Kirara(object):
     def post(self, url, args=None, payload=None, **kwargs):
         if args:
             kwargs.update(args)
-            
+
         reconnect = self.max_retries
         while reconnect > 0:
             try:
@@ -141,7 +141,7 @@ class Kirara(object):
         else:
             raise NotFound("Idol ID can not be found in the Database. Is the ID correct?")
 
-    def get_card(self, card_id: int):
+    def get_card(self, card_id: int, translate=False):
         """Retrieve a card's data
         
         Parameters
@@ -156,8 +156,18 @@ class Kirara(object):
         """
         data = self.get(f"card_t/{card_id}")
         if data['result'][0] is not None:
+            card = Card(data['result'][0])
+            if translate:
+                translations = (card.title, card.skill['skill_name'], card.lead_skill['name'])
+                result = self.post('read_tl', payload=translations)
+                
+                card.title = result.get(card.title)
+                card.skill['skill_name'] = result.get(card.skill['skill_name'])
+                card.lead_skill['name'] = result.get(card.lead_skill['name'])
 
-            return Card(data['result'][0])
+                return card
+            else:
+                return card
         else:
             raise NotFound("Card ID can not be found in the Database. Is the ID correct?")
     def get_version(self):
