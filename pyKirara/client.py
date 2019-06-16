@@ -134,7 +134,7 @@ class Kirara(object):
         Idol
             An Idol object, which contains the idol's info
         """
-        data = self.get(f"char_t/{idol_id}")
+        data = self.get("char_t/{0}".format(idol_id))
         if data['result'][0] is not None:
 
             return Idol(data['result'][0])
@@ -154,7 +154,7 @@ class Kirara(object):
         Card
             A Card object, which contains the card's info
         """
-        data = self.get(f"card_t/{card_id}")
+        data = self.get("card_t/{0}".format(card_id))
         if data['result'][0] is not None:
             card = Card(data['result'][0])
             if translate:
@@ -231,8 +231,8 @@ class Kirara(object):
             A list of gachas or events
         """
         categories = {
-        'events': self.get(f"happening/now")['events'],
-        'gachas': self.get(f"happening/now")['gachas']
+        'events': self.get("happening/now")['events'],
+        'gachas': self.get("happening/now")['gachas']
         }
         happening_list = []
 
@@ -271,7 +271,7 @@ class Kirara(object):
         int
             An ID of a specfic idol, or card"""
 
-        cat_list = self.get(f'list/{category}')['result']
+        cat_list = self.get('list/{0}'.format(category))['result']
         rarity = enum(rarities, card_rarity)
         card_list= []
 
