@@ -109,6 +109,18 @@ class Kirara(object):
                 raise
                 print('exception', str(e))
 
+    def post(self, url, args=None, payload=None, **kwargs):
+        if args:
+            kwargs.update(args)
+            
+        reconnect = self.max_retries
+        while reconnect > 0:
+            try:
+                return self.internal_call('POST', url, payload, kwargs)
+            except Exception as e:
+                raise
+                print('exception', str(e)) 
+
     def get_idol(self, idol_id: int):
         """Retrieve an idol's info
 
