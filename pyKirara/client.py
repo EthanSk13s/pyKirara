@@ -119,7 +119,11 @@ class Kirara(object):
                 return self.internal_call('POST', url, payload, kwargs)
             except Exception as e:
                 raise
-                print('exception', str(e)) 
+                print('exception', str(e))
+
+    def translate(self, translations: tuple):
+        results = self.post('read_tl', payload=translations)
+        return results 
 
     def get_idol(self, idol_id: int):
         """Retrieve an idol's info
@@ -141,7 +145,7 @@ class Kirara(object):
         else:
             raise NotFound("Idol ID can not be found in the Database. Is the ID correct?")
 
-    def get_card(self, card_id: int, translate=False):
+    def get_card(self, card_id: int, en_translate=False):
         """Retrieve a card's data
         
         Parameters
@@ -157,9 +161,9 @@ class Kirara(object):
         data = self.get("card_t/{0}".format(card_id))
         if data['result'][0] is not None:
             card = Card(data['result'][0])
-            if translate:
+            if en_translate:
                 translations = (card.title, card.skill['skill_name'], card.lead_skill['name'])
-                result = self.post('read_tl', payload=translations)
+                result = self.translate(translations)
                 
                 card.title = result.get(card.title)
                 card.skill['skill_name'] = result.get(card.skill['skill_name'])
@@ -217,7 +221,7 @@ class Kirara(object):
             raise NotValid("The passed object for card is not a Card object")
         
 
-    def get_now(self, category):
+    def get_now(self, category, en_translate=False):
         """Retrieve a list of occasions happenning in the game
         
         Parameters
@@ -240,15 +244,22 @@ class Kirara(object):
             stuff = categories.get(category)
 
             for index, event in enumerate(stuff):
-                if category == 'event':
+                if category == 'events':
                     happening_list.append(Event(event))
 
                 else:
                     for gacha, event in enumerate(stuff): # I don't know why you have to iterate again, maybe Im dumb
 
                         happening_list.append(Gacha(event))
+            if en_translate:
+                for thing in happening_list:
+                    translations = self.translate((thing.name,)) # Tuples are weird
 
-            return happening_list
+                    thing.name = translations.get(thing.name)
+                
+                return happening_list
+            else:    
+                return happening_list
                     
     def get_id(self, category, name, card_rarity=None, position=None):
         """Find a specific id based on parameters given
