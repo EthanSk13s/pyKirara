@@ -2,6 +2,7 @@
 
 import requests
 import json
+import re
 from functools import lru_cache
 
 from .idol import Idol
@@ -283,21 +284,24 @@ class Kirara(object):
             An ID of a specfic idol, or card"""
 
         cat_list = self.get('list/{0}'.format(category))['result']
-        rarity = enum(rarities, card_rarity)
+        rarity = enum(rarities, card_rarity)  
         card_list= []
 
         for index, code in enumerate(cat_list):
-            if category == 'char_t':
-                if name in cat_list[index]['conventional'].lower():
+            cat_name = cat_list[index]['conventional'].lower()
+            match = bool(re.search(r"\b{0}\b".format(name), cat_name))
 
+            if category == 'char_t':
+                if match:
                     return int(cat_list[index]['chara_id'])
 
             elif category == 'card_t':
-                if name in cat_list[index]['conventional'].lower():
-                    card_list.append(int(cat_list[index]['id']))
+                if match:
                     if card_rarity:
                         if int(rarity) == cat_list[index]['rarity_dep']['rarity']:
                             card_list.append(int(cat_list[index]['id']))
+                    else:
+                        card_list.append(int(cat_list[index]['id']))
             else:
                 raise CategoryNotFound("Category not found: Use 'card_t',or 'char_t'")
         if position:
