@@ -25,7 +25,7 @@ print(f"I'am {uzuki.age} years old!")
 ```
 
 ## Requirements
-- Python 3.6 (Will make backwards compatible)
+- Python 3.5+
 - [Requests](https://github.com/kennethreitz/requests) library
 
 ## License
