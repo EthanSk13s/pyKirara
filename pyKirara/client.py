@@ -111,6 +111,24 @@ class Kirara(object):
                 print('exception', str(e))
 
     def post(self, url, args=None, payload=None, **kwargs):
+        """Make POST requests
+        
+        Parameters
+        ----------
+        url : str
+            The url to the api (excluding the prefix url)
+
+        args : dict
+            Pass additional args
+
+        payload : str
+            Pass any additional parameters to request
+
+        Returns
+        ----------
+        dict
+            The result of the POST request
+        """
         if args:
             kwargs.update(args)
 
@@ -123,6 +141,18 @@ class Kirara(object):
                 print('exception', str(e))
 
     def translate(self, translations: tuple):
+        """Translate a tuple of Japanese strings to English
+
+        Parameters
+        ----------
+        translate : tuple
+            A tuple of eligible stings
+            
+        Returns
+        ---------
+        dict
+            A dict of the translated text (JP:EN mapping)
+        """
         results = self.post('read_tl', payload=translations)
         return results 
 
@@ -153,6 +183,8 @@ class Kirara(object):
         ----------
         card_id : int
             A Card's ID to use from
+        en_translate : bool
+            Whether to translate the title, skill name, and lead skill to english
             
         Returns
         ----------
@@ -232,6 +264,8 @@ class Kirara(object):
         ----------
         category : str
             What type of event to iterate from
+        en_translate : bool
+            Whether to translate the event's name
             
         Returns
         --------
