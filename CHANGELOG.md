@@ -1,3 +1,18 @@
+# Version 1.1.0 [2019/6/21]
+## Additions
+- Added translate function to translate some japanese strings to english such as:
+    - Card titles
+    - Skill names (Including Lead skills)
+    - Event names
+    - Gacha names
+- Added translate parameters to get_card, and get_now
+## Changes
+- Changed how name is matched in get_id from `x in y` to regex matching
+    - This prevents appending cards from both Rin and Rina since both names have 'Rin' in them, or any other similar names
+## Fixes
+- Fixed duplicate ID appending in get_id when rarity param is passed
+- Fixed mismatched category in get_now func
+
 # Version 1.0.0 [2019/6/11]
 ## NOW ON PyPI!!!!
 - To install:
