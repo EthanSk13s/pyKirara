@@ -32,7 +32,7 @@ Usage
 Requirements
 ------------
 
--  Python 3.6 (Will make backwards compatible)
+-  Python 3.5+
 -  `Requests <https://github.com/kennethreitz/requests>`__ library
 
 Table of Contents
