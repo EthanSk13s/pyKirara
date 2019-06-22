@@ -1,3 +1,6 @@
+# Version 1.1.1 [2019/6/22]
+## Hotfix
+- Fixed card translations using the same string
 # Version 1.1.0 [2019/6/21]
 ## Additions
 - Added translate function to translate some japanese strings to english such as:
