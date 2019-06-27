@@ -211,6 +211,37 @@ class Kirara(object):
         else:
             raise NotFound("Card ID can not be found in the Database. Is the ID correct?")
             
+    def get_cards(self, card_ids: list, en_translate=False):
+        card_ids = str(card_ids).replace('[', '').replace(']', '')
+        card_list = []
+
+        data = self.get("card_t/{0}".format(card_ids))
+
+        for index, card_data in enumerate(data['result']):
+            card_list.append(Card(card_data))
+
+        if en_translate:
+            translations = []
+            for string in card_list:
+                translations.append(string.title)
+                translations.append(string.skill['skill_name'])
+                translations.append(string.lead_skill['name'])
+
+            result = self.translate(tuple(translations))
+
+            for strings, translated in result.items():
+                if translated is None:
+                    translated = strings
+            for card in card_list:
+                card.title = card.title if result.get(
+                    card.tile) is None else result.get(card.title)
+                card.skill['skill_name'] = card.skill['skill_name'] if result.get(
+                    card.skill['skill_name']) is None else result.get(card.skill['skill_name'])
+                card.lead_skill['name'] = card.lead_skill['name'] if result.get(
+                    card.lead_skill['name']) is None else result.get(card.lead_skill['name'])
+            
+            return card_list
+            
     def get_version(self):
         """Retrieve the client's version
         
