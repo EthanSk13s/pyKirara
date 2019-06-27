@@ -176,6 +176,17 @@ class Kirara(object):
         else:
             raise NotFound("Idol ID can not be found in the Database. Is the ID correct?")
 
+    def get_idols(self, idol_ids: list):
+        idol_ids = str(idol_ids).replace('[', '').replace(']', '')
+        idol_list = []
+
+        data = self.get('char_t{0}'.format(idol_ids))
+
+        for i, idol in enumerate(data['result']):
+            idol_list.append(Idol(idol))
+
+        return idol_list
+
     def get_card(self, card_id: int, en_translate=False):
         """Retrieve a card's data
         
@@ -210,7 +221,7 @@ class Kirara(object):
                 return card
         else:
             raise NotFound("Card ID can not be found in the Database. Is the ID correct?")
-            
+
     def get_cards(self, card_ids: list, en_translate=False):
         card_ids = str(card_ids).replace('[', '').replace(']', '')
         card_list = []
@@ -234,7 +245,7 @@ class Kirara(object):
                     translated = strings
             for card in card_list:
                 card.title = card.title if result.get(
-                    card.tile) is None else result.get(card.title)
+                    card.title) is None else result.get(card.title)
                 card.skill['skill_name'] = card.skill['skill_name'] if result.get(
                     card.skill['skill_name']) is None else result.get(card.skill['skill_name'])
                 card.lead_skill['name'] = card.lead_skill['name'] if result.get(
