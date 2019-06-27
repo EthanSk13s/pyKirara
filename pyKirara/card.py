@@ -1,6 +1,4 @@
-import requests
-from functools import lru_cache
-
+from .idol import Idol
 from .enums import enum, attributes
 from .errors import CategoryNotFound
 
@@ -117,6 +115,7 @@ class Card:
         self.sign = card_data['sign_image_ref']
 
         self.chara_id = card_data['chara_id']
+        self.chara = Idol(card_data['chara'])
         self.evo_id = card_data['evolution_id']
         self.evo_type = card_data['evolution_type']
         self.grow_type = card_data['grow_type']
@@ -128,7 +127,7 @@ class Card:
         self.series_id = card_data['series_id']
         self.lead_skill = card_data['lead_skill']
         self.skill = card_data['skill']
-        self.rarity = card_data['rarity']
+        self.rarity = Rarity(card_data['rarity'])
 
         self.min_vocal = card_data['vocal_min']
         self.max_vocal = card_data['vocal_max']
@@ -155,16 +154,28 @@ class Card:
             Value of stat in specified level
         """
         if stat == 'dance':
-            dance_formula = self.min_dance + (self.max_dance - self.min_dance) * (level/self.rarity['base_max_level'])
+            dance_formula = self.min_dance + (self.max_dance - self.min_dance) * (level/self.rarity.base_max_level)
 
             return round(dance_formula)
 
         elif stat == 'visual':
-            visual_formula = self.min_visual + (self.max_visual - self.min_visual) * (level/self.rarity['base_max_level'])
+            visual_formula = self.min_visual + (self.max_visual - self.min_visual) * (level/self.rarity.base_max_level)
 
             return round(visual_formula)
 
         elif stat == 'vocal':
-            vocal_formula = self.min_vocal + (self.max_vocal - self.min_vocal) * (level/self.rarity['base_max_level'])
+            vocal_formula = self.min_vocal + (self.max_vocal - self.min_vocal) * (level/self.rarity.base_max_level)
 
             return round(vocal_formula)
+
+class Rarity:
+    def __init__(self, rarity_data: dict):
+        self.rarity = rarity_data['rarity']
+        self.base_max_level = rarity_data['base_max_level']
+        self.add_max_level = rarity_data['add_max_level']
+        self.max_love = rarity_data['max_love']
+        self.base_give_money = rarity_data['base_give_money']
+        self.base_give_exp = rarity_data['base_give_exp']
+        self.add_param = rarity_data['add_param']
+        self.max_star_rank = rarity_data['max_star_rank']
+        
