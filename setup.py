@@ -13,7 +13,7 @@ setuptools.setup(name='pyKirara',
     project_urls={
     "Documentation": "https://pykirara.readthedocs.io/"
     },
-    version='1.1.0',
+    version='1.1.1',
     packages=['pyKirara'],
     license='MIT',
     description='a Python wrapper for the starlight.kirara API',

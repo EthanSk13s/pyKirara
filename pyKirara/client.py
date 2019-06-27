@@ -211,10 +211,12 @@ class Kirara(object):
                 for strings, translated in result.items():
                     if translated is None:
                         translated = strings
-                    else:
-                        card.title = translated
-                        card.skill['skill_name'] = translated
-                        card.lead_skill['name'] = translated
+                    
+                card.title = card.title if result.get(card.title) is None else result.get(card.title)
+                card.skill['skill_name'] = card.skill['skill_name'] if result.get(
+                    card.skill['skill_name']) is None else result.get(card.skill['skill_name'])
+                card.lead_skill['name'] = card.title if result.get(
+                    card.lead_skill['name']) is None else result.get(card.lead_skill['name'])
 
                 return card
             else:
