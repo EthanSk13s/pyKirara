@@ -107,8 +107,7 @@ class Kirara(object):
             try:
                 return self.internal_call('GET', url, payload, kwargs)
             except Exception as e:
-                raise
-                print('exception', str(e))
+                raise print('exception', str(e))                
 
     def post(self, url, args=None, payload=None, **kwargs):
         """Make POST requests
@@ -137,9 +136,8 @@ class Kirara(object):
             try:
                 return self.internal_call('POST', url, payload, kwargs)
             except Exception as e:
-                raise
-                print('exception', str(e))
-
+                raise print('exception', str(e))
+                
     def translate(self, translations: tuple):
         """Translate a tuple of Japanese strings to English
 
@@ -180,9 +178,9 @@ class Kirara(object):
         idol_ids = str(idol_ids).replace('[', '').replace(']', '')
         idol_list = []
 
-        data = self.get('char_t{0}'.format(idol_ids))
+        data = self.get('char_t/{0}'.format(idol_ids))
 
-        for i, idol in enumerate(data['result']):
+        for idol in data['result']:
             idol_list.append(Idol(idol))
 
         return idol_list
@@ -206,17 +204,17 @@ class Kirara(object):
         if data['result'][0] is not None:
             card = Card(data['result'][0])
             if en_translate:
-                translations = (card.title, card.skill['skill_name'], card.lead_skill['name'])
+                translations = (card.title, card.skill.name, card.lead_skill.name)
                 result = self.translate(translations)
                 for strings, translated in result.items():
                     if translated is None:
                         translated = strings
                     
                 card.title = card.title if result.get(card.title) is None else result.get(card.title)
-                card.skill['skill_name'] = card.skill['skill_name'] if result.get(
-                    card.skill['skill_name']) is None else result.get(card.skill['skill_name'])
-                card.lead_skill['name'] = card.title if result.get(
-                    card.lead_skill['name']) is None else result.get(card.lead_skill['name'])
+                card.skill.name = card.skill.name if result.get(
+                    card.skill.name) is None else result.get(card.skill.name)
+                card.lead_skill.name = card.title if result.get(
+                    card.lead_skill.name) is None else result.get(card.lead_skill.name)
 
                 return card
             else:
@@ -230,15 +228,15 @@ class Kirara(object):
 
         data = self.get("card_t/{0}".format(card_ids))
 
-        for index, card_data in enumerate(data['result']):
+        for card_data in data['result']:
             card_list.append(Card(card_data))
 
         if en_translate:
             translations = []
             for string in card_list:
                 translations.append(string.title)
-                translations.append(string.skill['skill_name'])
-                translations.append(string.lead_skill['name'])
+                translations.append(string.skill.name)
+                translations.append(string.lead_skill.name)
 
             result = self.translate(tuple(translations))
 
@@ -248,10 +246,10 @@ class Kirara(object):
             for card in card_list:
                 card.title = card.title if result.get(
                     card.title) is None else result.get(card.title)
-                card.skill['skill_name'] = card.skill['skill_name'] if result.get(
-                    card.skill['skill_name']) is None else result.get(card.skill['skill_name'])
-                card.lead_skill['name'] = card.lead_skill['name'] if result.get(
-                    card.lead_skill['name']) is None else result.get(card.lead_skill['name'])
+                card.skill.name = card.skill.name if result.get(
+                    card.skill.name) is None else result.get(card.skill.name)
+                card.lead_skill.name = card.lead_skill.name if result.get(
+                    card.lead_skill.name) is None else result.get(card.lead_skill.name)
             
             return card_list
             
@@ -325,12 +323,12 @@ class Kirara(object):
         if category in categories:
             stuff = categories.get(category)
 
-            for index, event in enumerate(stuff):
+            for event in stuff:
                 if category == 'events':
                     happening_list.append(Event(event))
 
                 else:
-                    for gacha, event in enumerate(stuff): # I don't know why you have to iterate again, maybe Im dumb
+                    for event in stuff: # I don't know why you have to iterate again, maybe Im dumb
 
                         happening_list.append(Gacha(event))
             if en_translate:
@@ -368,7 +366,7 @@ class Kirara(object):
         rarity = enum(rarities, card_rarity)  
         card_list= []
 
-        for index, code in enumerate(cat_list):
+        for index in enumerate(cat_list):
             cat_name = cat_list[index]['conventional'].lower()
             match = bool(re.search(r"\b{0}\b".format(name), cat_name))
 
