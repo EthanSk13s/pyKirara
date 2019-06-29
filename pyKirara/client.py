@@ -366,7 +366,7 @@ class Kirara(object):
         rarity = enum(rarities, card_rarity)  
         card_list= []
 
-        for index in enumerate(cat_list):
+        for index, v in enumerate(cat_list):
             cat_name = cat_list[index]['conventional'].lower()
             match = bool(re.search(r"\b{0}\b".format(name), cat_name))
 
