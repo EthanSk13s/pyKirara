@@ -1,7 +1,7 @@
-class Skills:
+class Skill:
     def __init__(self, skill_data: dict):
         self.id = skill_data['id']
-        self.skill_name = skill_data['skill_name']
+        self.name = skill_data['skill_name']
         self.explain = skill_data['explain']
         self.en_explain = skill_data['explain_en']
 
