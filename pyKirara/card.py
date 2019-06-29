@@ -1,4 +1,5 @@
 from .idol import Idol
+from .skills import Skill, LeadSkill
 from .enums import enum, attributes
 from .errors import CategoryNotFound
 
@@ -125,8 +126,8 @@ class Card:
         self.place = card_data['place']
         self.pose = card_data['pose']
         self.series_id = card_data['series_id']
-        self.lead_skill = card_data['lead_skill']
-        self.skill = card_data['skill']
+        self.lead_skill = LeadSkill(card_data['lead_skill'])
+        self.skill = Skill(card_data['skill'])
         self.rarity = Rarity(card_data['rarity'])
 
         self.min_vocal = card_data['vocal_min']
