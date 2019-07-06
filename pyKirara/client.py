@@ -8,7 +8,7 @@ from functools import lru_cache
 from .idol import Idol
 from .card import Card
 from .infos import Event, Gacha, Info
-from .enums import enum, blood_types, constellations, hands, home_towns, rarities
+from .enums import enum, rarities
 from .errors import CategoryNotFound, NotFound, NotValid
 
 class KiraraException(Exception):
