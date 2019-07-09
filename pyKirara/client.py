@@ -223,6 +223,15 @@ class Kirara(object):
             raise NotFound("Card ID can not be found in the Database. Is the ID correct?")
 
     def get_cards(self, card_ids: list, en_translate=False):
+        """Retrieve multiple cards using a list of card Ids
+
+        Parameters
+        ----------
+        card_ids : list
+            A list of ints representing card ids
+        en_translate : bool
+            Whether to translate the card's JP text to EN
+        """
         card_ids = str(card_ids).replace('[', '').replace(']', '')
         card_list = []
 
