@@ -170,6 +170,27 @@ class Card:
             return round(vocal_formula)
 
 class Rarity:
+    """Represent a Card's rarity data
+    
+    Attributes
+    ----------
+    rarity : int
+        An int representing how rare the card is
+    base_max_level : int
+        A number that is the level cap of the card
+    add_max_level : int
+        A number that is how many levels the card can possibly have
+    max_love : int
+        The max amount of love that can be obtained
+    base_give_money : int
+        The amount of money the card gives if the card is retired
+    base_give_exp : int
+        The amount of exp the card give if they are used as exp fodder
+    add_param : int
+        ???
+    max_star_rank : int
+        The cap that the card can get by increasing star rank
+    """
     def __init__(self, rarity_data: dict):
         self.rarity = rarity_data['rarity']
         self.base_max_level = rarity_data['base_max_level']
