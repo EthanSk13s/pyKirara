@@ -29,6 +29,9 @@ class Card:
 
     chara_id : int
         The card's character id
+    
+    chara : Idol
+        An Idol object using the card's idol data
 
     evo_id : int
         The card's evolution id of transformed card
@@ -57,14 +60,14 @@ class Card:
     series_id : int
         The evolution chain id of the card
 
-    skill : dict
-        The card's skill info in a dict
+    skill : Skill
+        The card's skill info in a Skill object
 
-    lead_skill : dict
-        The card's lead skill info in a dict
+    lead_skill : LeadSkill
+        The card's lead skill info in a Lead Skill object
 
-    rarity : dict
-        Represents the card's rarity data in dict form
+    rarity : Rarity
+        Represents the card's rarity data in a Rarity object
 
     min_vocal : int
         The card's minimum vocal value
