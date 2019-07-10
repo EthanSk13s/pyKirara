@@ -1,6 +1,15 @@
+# Version 1.2.0 [2019/7/10]
+## Additions
+- Added get_cards and get_idols function which takes a list of ids and makes them to a list of card objects
+- Added chara attr to card object which is an Idol object
+## Changes
+- Card attrs such as skill, and lead_skill are now objects instead of dicts
+    - Some documentation are missing since I have no idea what some of them do
+
 # Version 1.1.1 [2019/6/22]
 ## Hotfix
 - Fixed card translations using the same string
+
 # Version 1.1.0 [2019/6/21]
 ## Additions
 - Added translate function to translate some japanese strings to english such as:
