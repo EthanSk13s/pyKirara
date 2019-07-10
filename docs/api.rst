@@ -14,6 +14,15 @@ Return Dataclasses
 .. autoclass:: pyKirara.card.Card
     :members:
 
+.. autoclass:: pyKirara.card.Rarity
+    :members:
+
+.. autoclass:: pyKirara.skills.Skill
+    :members:
+
+.. autoclass:: pyKirara.skills.LeadSkill
+    :members:
+
 .. autoclass:: pyKirara.infos.Gacha
     :members:
 
