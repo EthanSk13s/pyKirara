@@ -6,6 +6,7 @@ pyKirara is a Python library for the starlight.kirara REST API
 
 [Basic Documentation](https://pykirara.readthedocs.io/en/latest/)
 
+[Async Port](https://github.com/EthanSk13s/async-kirara)
 ## Usage
 
 ```python
