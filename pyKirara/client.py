@@ -175,6 +175,18 @@ class Kirara(object):
             raise NotFound("Idol ID can not be found in the Database. Is the ID correct?")
 
     def get_idols(self, idol_ids: list):
+        """Retrieve a list of Idols using a list IDs
+        
+        Parameters
+        ----------
+        idol_ids : list
+            A list of ints that represent idol IDs
+
+        Returns
+        ----------
+        list
+            A list of idol objects
+        """
         idol_ids = str(idol_ids).replace('[', '').replace(']', '')
         idol_list = []
 
@@ -231,6 +243,11 @@ class Kirara(object):
             A list of ints representing card ids
         en_translate : bool
             Whether to translate the card's JP text to EN
+
+        Returns
+        ----------
+        list
+            A list of card objects
         """
         card_ids = str(card_ids).replace('[', '').replace(']', '')
         card_list = []
