@@ -278,7 +278,7 @@ class Kirara(object):
 
                 if card.skill is not None:
                     card.skill.name = card.skill.name if result.get(
-                        card.skill) is None else result.get(card.skill.name)
+                        card.skill.name) is None else result.get(card.skill.name)
 
                 if card.lead_skill is not None:
                     card.lead_skill.name = card.lead_skill.name if result.get(
