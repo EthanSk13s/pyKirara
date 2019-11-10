@@ -261,8 +261,11 @@ class Kirara(object):
             translations = []
             for string in card_list:
                 translations.append(string.title)
-                translations.append(string.skill.name)
-                translations.append(string.lead_skill.name)
+
+                if string.skill is not None:
+                    translations.append(string.skill.name)
+                if string.lead_skill is not None:
+                    translations.append(string.lead_skill.name)
 
             result = self.translate(tuple(translations))
 
@@ -272,10 +275,15 @@ class Kirara(object):
             for card in card_list:
                 card.title = card.title if result.get(
                     card.title) is None else result.get(card.title)
-                card.skill.name = card.skill.name if result.get(
-                    card.skill.name) is None else result.get(card.skill.name)
-                card.lead_skill.name = card.lead_skill.name if result.get(
-                    card.lead_skill.name) is None else result.get(card.lead_skill.name)
+
+                if card.skill is not None:
+                    card.skill.name = card.skill.name if result.get(
+                        card.skill) is None else result.get(card.skill.name)
+
+                if card.lead_skill is not None:
+                    card.lead_skill.name = card.lead_skill.name if result.get(
+                        card.lead_skill.name) is None else result.get(
+                        card.lead_skill.name)
             
             return card_list
             
