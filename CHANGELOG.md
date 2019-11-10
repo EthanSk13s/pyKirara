@@ -1,3 +1,8 @@
+# Version 1.2.1 [2019/11/10]
+## Fixes
+- Empty skills and lead skills are now assigned as None
+    - Some code might break due to these assignments
+    
 # Version 1.2.0 [2019/7/10]
 ## Additions
 - Added get_cards and get_idols function which takes a list of ids and makes them to a list of card objects
