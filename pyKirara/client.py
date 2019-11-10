@@ -216,17 +216,27 @@ class Kirara(object):
         if data['result'][0] is not None:
             card = Card(data['result'][0])
             if en_translate:
-                translations = (card.title, card.skill.name, card.lead_skill.name)
-                result = self.translate(translations)
+                translations = []
+                translations.append(card.title)
+
+                if card.skill is not None:
+                    translations.append(card.skill.name)
+
+                if card.lead_skill is not None:
+                    translations.append(card.lead_skill.name)
+
+                result = self.translate(tuple(translations))
                 for strings, translated in result.items():
                     if translated is None:
                         translated = strings
                     
                 card.title = card.title if result.get(card.title) is None else result.get(card.title)
-                card.skill.name = card.skill.name if result.get(
-                    card.skill.name) is None else result.get(card.skill.name)
-                card.lead_skill.name = card.title if result.get(
-                    card.lead_skill.name) is None else result.get(card.lead_skill.name)
+                if card.skill is not None:
+                    card.skill.name = card.skill.name if result.get(
+                        card.skill.name) is None else result.get(card.skill.name)
+                if card.lead_skill is not None:
+                    card.lead_skill.name = card.title if result.get(
+                        card.lead_skill.name) is None else result.get(card.lead_skill.name)
 
                 return card
             else:
